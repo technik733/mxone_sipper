@@ -1,5 +1,5 @@
 # mxone_sipper
-Python script for automating the migration of simple extensions / phone numbers from analog and digital to SIP on the Mitel MXOne PBX. This script works on both MXOne 6.3 SP0 HF2 and (with one alteration) 6.1 SP0 HF1.
+Python script for automating the migration of simple extensions / phone numbers from analog and digital to SIP on the Mitel MXOne PBX. This script works on both MXOne 6.3 SP0 HF2 and (with one alteration) 6.1 SP0 HF2.
 
 Requirements:
 This script has been tested with Python 3.4+ and with Paramiko 2.2.0 and 2.4.2.
