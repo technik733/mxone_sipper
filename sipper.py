@@ -37,7 +37,7 @@ def load(filename):
     list_file = open(filename)
     ext2tup_dict = {}
     for line in list_file:
-        #skip header lines
+        #skip header lines (necessary for using the example csv that has a header row)
         if not line.startswith("\d"):
             continue
         line = line.rstrip()
@@ -140,7 +140,7 @@ def extmove():
         command4 = '/opt/eri_sn/bin/mdsh -c "extee:dir=%s;"' % (ext)
         command5 = '/opt/eri_sn/bin/mdsh -c "ksexe:dir=%s;"' % (ext)
 
-        #strings to build the VoIP phones
+        #strings to build the IP extensions
         command6 = "extension -i --dir %s --csp %s --edn no --lim %s --customer 0 --language-code en --secretary 0 --free-on-second-line 0 --security-exception yes" % (ext, csp, lim_number)
         command7 = "ip_extension -i --dir %s --protocol %s" % (ext, license_type)
 
