@@ -1,0 +1,6 @@
+ext,first,last,csp,lim,license,vm_diversion
+12345,No Div Flag,Smith,10,5,SIP,
+54321,Server 6,Smith,10,6,SIP,y
+99999,John,Doe,10,5,SIP,y
+11111,No,CSP,,5,SIP,y
+67890,No,Diversion,10,5,SIP,n
