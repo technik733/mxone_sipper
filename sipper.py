@@ -158,16 +158,17 @@ def extmove():
         ###set these for your organization###
         #default voicemail diversion setting
         command9 = "diversion -i --dir %s --div-destination-number 93000 --div-noreply 1 --div-busy 1 --div-immediate 0" % (ext)
-        #no answer
+        #no answer diversion
         command10 = "extension_procedure --dir %s --proc '*21#'" % (ext)
-        #busy
+        #busy diversion
         command11 = "extension_procedure --dir %s --proc '*22#'" % (ext)
-        #direct - this one is skipped normally
+        #direct diversion - this one is skipped normally but here if needed
         #command12 = "extension_procedure --dir %s --proc '*2#'" % (ext)
 
-        #define all commands that are checks
+        #group all commands that are checks
         check_commands = [command1, command2, command3]
 
+        #group all migration commands
         #only divert if it's flagged for diversion
         if divert_yn == "y":
             commands = [command4, command5, command6, command7, command8, command9, command10, command11]
@@ -334,9 +335,10 @@ def extmove():
     logfile.close()
 
 #actual program execution
+#read filename from CLI argument
 filename = sys.argv[1]
 
-#credential gram and login test
+#credential grab and login test
 mxone_target, mxone_username, mxone_password, mxone_ssh = logintest()
 
 #load file into a dictionary of tuples keyed by extension
