@@ -126,10 +126,12 @@ def extmove():
 
         #strings to sudip and susip the extension, saving files if possible
         ###use for 6.3+###
+        command0 = '/opt/eri_sn/bin/mdsh -c "ksmdp:mdn=%s;"' % (ext)
         command1 = 'resource_status --extensions -d %s --high-detail' % (ext)
         command2 = ''
 
         ###use for pre-6.3###
+        #command0 = '/opt/eri_sn/bin/mdsh -c "ksmdp:mdn=%s;"' % (ext)
         #command1 = '/opt/eri_sn/bin/mdsh -c "sudip:dir=%s;"' % (ext)
         #command2 = '/opt/eri_sn/bin/mdsh -c "susip:dir=%s;"' % (ext)
 
@@ -166,7 +168,7 @@ def extmove():
         #command12 = "extension_procedure --dir %s --proc '*2#'" % (ext)
 
         #group all commands that are checks
-        check_commands = [command1, command2, command3]
+        check_commands = [command0, command1, command2, command3]
 
         #group all migration commands
         #only divert if it's flagged for diversion
