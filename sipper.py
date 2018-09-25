@@ -263,7 +263,7 @@ def extmove():
             skip_ext = "y"
 
         #catch MDN represented & skip
-        #Note: there appears to be a bug in 6.3 SP0 HF2 that makes these not appear.
+        #Note: there appears to be a bug in 6.3 SP0 HF2 that makes these not appear *reliably* in resource_status.
         if re.search("EXTENSION MULTIPLE DIRECTORY NUMBER DATA", minibuff) or re.search("MDN represented", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - MDN represented [SKIPPED]\n")
