@@ -190,7 +190,7 @@ def extmove():
                 buff += resp
                 minibuff += resp
 
-        ###these checks should be tuned to what your organization wants###
+                ###these checks should be tuned to what your organization wants###
         #catch busy extensions & skip
         if (re.search("SPEECH", minibuff) or re.search("CALORG", minibuff)) or re.search("CALTER", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
@@ -231,56 +231,69 @@ def extmove():
             exceptlog.close()
 
         #catch SCA keys & skip
-        if re.search("SCA    \d\d\d\d\d", minibuff):
+        if re.search("SCA    \d+", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - SCA Key [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
         #catch MNS Key Exists & skip
-        if re.search("MNS    \d\d\d\d\d", minibuff) or re.search("MNS   \d\d\d\d\d", minibuff):
+        #first pair is for 6.1 (I think) and the third string is for 6.3
+        if (re.search("MNS    \d+", minibuff) or re.search("MNS   \d+", minibuff)) or re.search("MNS   , Mon dir:"):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - MNS Key Exists [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
+        #catch MNS represented and skip
+        ###I actually don't know a string to match for 6.1, so you should add it here if you're using 6.1 (and send me an email!)###
+        if re.search("MNS represented", minibuff):
+            exceptlog = open("sipper_exceptions_log.txt", "a")
+            exceptlog.write(ext + " - MNS represented [SKIPPED]\n")
+            exceptlog.close()
+            skip_ext = "y"
+
         #catch MDN Key Exists & skip
-        if re.search("MDN   \d\d\d\d\d", minibuff):
+        if re.search("MDN   \d+", minibuff) or re.search("MDN             : \d+", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - MDN Key Exists [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
-        #catch Extension is an MDN key & skip
-        if re.search("EXTENSION MULTIPLE DIRECTORY NUMBER DATA", minibuff):
+        #catch MDN represented & skip
+        #Note: there appears to be a bug in 6.3 SP0 HF2 that makes these not appear.
+        if re.search("EXTENSION MULTIPLE DIRECTORY NUMBER DATA", minibuff) or re.search("MDN represented", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
-            exceptlog.write(ext + " - Extension is an MDN Key [SKIPPED]\n")
+            exceptlog.write(ext + " - MDN represented [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
         #catch ADN Key Exists & skip
-        if re.search("ADN          \d\d\d\d\d", minibuff):
+        if re.search("ADN          \d+", minibuff) or re.search("ADN             :", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - ADN Key Exists [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
-        #catch Extension is an ADN Key & skip
+        #catch ADNs & skip
+        #This only works for 6.1, because resource_status shows ADNs as digitals in 6.3 SP0 HF2. Possible bug.#
+        #hopefully you won't be trying to convert ADNs to SIP, but it doesn't hurt to check
         if re.search("ADN    CALALT  ODN", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
-            exceptlog.write(ext + " - Extension is an ADN Key [SKIPPED]\n")
+            exceptlog.write(ext + " - Extension is an ADN [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
         #catch EDN Key Exists & skip
-        if re.search("EDN    \d\d\d\d\d", minibuff):
+        if re.search("EDN    \d+", minibuff) or re.search("EDN    on", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - EDN Key Exists [SKIPPED]\n")
             exceptlog.close()
             skip_ext = "y"
 
-        #catch Extension is an EDN Key
-        #this doesn't seem to exist, need to build a system to detect it
+        #catch extension is an EDN Key
+        #this doesn't seem to exist in resource_status, need to build a system to detect it
+        #hopefully you won't be trying to convert EDNs to SIP, but it doesn't hurt to check
 
         #skip the extension if it has a terminal illness
         if skip_ext == "y":
