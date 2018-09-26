@@ -92,6 +92,15 @@ def extmove():
     exceptlog = open("sipper_exceptions_log.txt", "w+")
     exceptlog.write("\n")
     exceptlog.close()
+    
+    #account for direct inward access numbers and remote type 1 and 2
+    #this adds the output to the buffer to be searched later in the script
+    chan.send("number_print" + "\n")
+            #wait for a response (weird - resp is the string instead of buff)
+            resp = chan.recv(9999).decode("utf-8")
+            while not resp.endswith("> "):
+                resp += chan.recv(9999).decode("utf-8")
+                buff += resp
 
     #move the extensions
     for ext in ext2tup_dict:
@@ -296,6 +305,13 @@ def extmove():
         #catch extension is an EDN Key
         #this doesn't seem to exist in resource_status, need to build a system to detect it
         #hopefully you won't be trying to convert EDNs to SIP, but it doesn't hurt to check
+        
+        #catch direct inward access numbers and remote type 1 and 2 and skip
+        if re.search("DIRECT INWARD SERVICE ACCESS\s+" + ext, buff) or re.search("REMOTE TYPE [12]\s+" + ext, buff):
+            exceptlog = open("sipper_exceptions_log.txt", "a")
+            exceptlog.write(ext + " - Direct Inward Access or Remote Type 1 or 2 [SKIPPED]\n")
+            exceptlog.close()
+            skip_ext = "y"
 
         #skip the extension if it has a terminal illness
         if skip_ext == "y":
@@ -350,6 +366,8 @@ def extmove():
     logfile.close()
 
 #actual program execution
+print ("MXOne SIP Migration Script for Python")
+
 #read filename from CLI argument
 filename = sys.argv[1]
 
