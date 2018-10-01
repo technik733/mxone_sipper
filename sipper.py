@@ -96,11 +96,11 @@ def extmove():
     #account for direct inward access numbers and remote type 1 and 2
     #this adds the output to the buffer to be searched later in the script
     chan.send("number_print" + "\n")
-            #wait for a response (weird - resp is the string instead of buff)
-            resp = chan.recv(9999).decode("utf-8")
-            while not resp.endswith("> "):
-                resp += chan.recv(9999).decode("utf-8")
-                buff += resp
+    #wait for a response (weird - resp is the string instead of buff)
+    resp = chan.recv(9999).decode("utf-8")
+    while not resp.endswith("> "):
+        resp += chan.recv(9999).decode("utf-8")
+        buff += resp
 
     #move the extensions
     for ext in ext2tup_dict:
