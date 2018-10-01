@@ -250,7 +250,7 @@ def extmove():
 
         #catch MNS Key Exists & skip
         #first pair is for 6.1 (I think) and the third string is for 6.3
-        if (re.search("MNS    \d+", minibuff) or re.search("MNS   \d+", minibuff)) or re.search("MNS   , Mon dir:"):
+        if (re.search("MNS    \d+", minibuff) or re.search("MNS   \d+", minibuff)) or re.search("MNS   , Mon dir:", minibuff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
             exceptlog.write(ext + " - MNS Key Exists [SKIPPED]\n")
             exceptlog.close()
