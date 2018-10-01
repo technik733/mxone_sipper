@@ -4,8 +4,10 @@ Python script for automating the migration of simple extensions / phone numbers 
 Requirements:
 This script has been tested with Python 3.4+ and with Paramiko 2.2.0 and 2.4.2. You do also need to have SSH access to the MXOne on the machine that's running this script.
 
-An older version of Paramiko may work, but there is a bug in 2.2.1 that breaks an previous version of this script, and I will not be testing this.
+It's important to find the triple-commented lines (###enclosed by three pound signs###) and adjust the appropriate variables and strings to your particular implimentation of the MXOne. (default username, IP address, voicemail diversion number, dial codes, etc). 
 
-It's important to find the triple-commented lines and adjust the appropriate variables and strings to your particular implimentation of the MXOne. (default username, IP address, diversion dial codes, etc). A sample CSV file is included in this repository.
+One way to get a good idea of what you would want to change things to, you can view /var/log/messages to see the exact commands that Provisioning Manager sends when you end and build a phone.
 
-Further documentation is pending.
+Paramiko can be installed by running "pip install paramiko" from your workstation if you have python3 installed. (Substitute pip3 if you have two versions of Python installed.)
+
+A sample CSV file is included in this repository, and further documentation is pending.
