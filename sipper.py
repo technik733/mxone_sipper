@@ -362,6 +362,7 @@ def extmove():
     while not resp.endswith("> "):
         resp += chan.recv(9999).decode("utf-8")
         buff += resp
+    #save logfile
     logfile.write(buff)
     logfile.close()
 
