@@ -37,12 +37,12 @@ def load(filename):
     list_file = open(filename)
     ext2tup_dict = {}
     for line in list_file:
-        #skip header lines (necessary for using the example csv that has a header row)
-        if not line.startswith("\d"):
-            continue
         line = line.rstrip()
         column_list = line.split(",")
         ext, first, last, csp, lim_number, license_type, divert_yn = column_list[0], column_list[1], column_list[2], column_list[3], column_list[4], column_list[5], column_list[6]
+        #skip header lines (necessary for using the example csv that has a header row)
+        if re.search("[A-Za-z]", ext):
+            continue
         ###default a blank csp field to what works for your organization###
         if csp == "":
             csp = "10"
@@ -92,7 +92,7 @@ def extmove():
     exceptlog = open("sipper_exceptions_log.txt", "w+")
     exceptlog.write("\n")
     exceptlog.close()
-    
+
     #account for direct inward access numbers and remote type 1 and 2
     #this adds the output to the buffer to be searched later in the script
     chan.send("number_print" + "\n")
@@ -305,7 +305,7 @@ def extmove():
         #catch extension is an EDN Key
         #this doesn't seem to exist in resource_status, need to build a system to detect it
         #hopefully you won't be trying to convert EDNs to SIP, but it doesn't hurt to check
-        
+
         #catch direct inward access numbers and remote type 1 and 2 and skip
         if re.search("DIRECT INWARD SERVICE ACCESS\s+" + ext, buff) or re.search("REMOTE TYPE [12]\s+" + ext, buff):
             exceptlog = open("sipper_exceptions_log.txt", "a")
